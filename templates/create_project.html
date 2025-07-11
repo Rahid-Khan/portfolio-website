@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center animate__animated animate__fadeIn">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0 text-center">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        {{ 'Edit Project' if project else 'Add New Project' }}
+                    </h2>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data" id="projectForm" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <!-- CSRF Token Validation -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <!-- Title Field -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-bold">Project Title</label>
+                            {{ form.title(class="form-control form-control-lg" + (' is-invalid' if form.title.errors else ''), 
+                               placeholder="Enter project title", 
+                               required="required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Description Field -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-bold">Description</label>
+                            {{ form.description(class="form-control" + (' is-invalid' if form.description.errors else ''), 
+                               rows="5", 
+                               placeholder="Describe your project in detail",
+                               required="required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            <div class="form-text">Markdown is supported</div>
+                        </div>
+                        
+                        <!-- Image Upload with Preview -->
+                        <div class="mb-4">
+                            <label for="image" class="form-label fw-bold">Project Image</label>
+                            {% if project and project.image_file %}
+                                <div class="mb-3 text-center">
+                                    <img src="{{ url_for('static', filename='project_images/' + project.image_file) }}" 
+                                         id="imagePreview" 
+                                         class="img-thumbnail mb-2" 
+                                         style="max-height: 200px; display: block;">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="removeImage">
+                                        <i class="fas fa-trash me-1"></i>Remove Current Image
+                                    </button>
+                                    <input type="hidden" name="existing_image" value="{{ project.image_file }}">
+                                </div>
+                            {% else %}
+                                <div class="mb-3 text-center">
+                                    <img src="" id="imagePreview" class="img-thumbnail mb-2" style="max-height: 200px; display: none;">
+                                </div>
+                            {% endif %}
+                            
+                            <div class="file-upload-wrapper">
+                                {{ form.image(class="form-control" + (' is-invalid' if form.image.errors else ''), 
+                                   accept=".jpg,.jpeg,.png,.webp",
+                                   id="imageInput") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.image.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                                <small class="form-text text-muted">
+                                    Allowed formats: JPG, JPEG, PNG, WEBP (Max 5MB)
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- Project URL -->
+                        <div class="mb-4">
+                            <label for="project_url" class="form-label fw-bold">Project URL</label>
+                            {{ form.project_url(class="form-control" + (' is-invalid' if form.project_url.errors else ''), 
+                               placeholder="https://example.com") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.project_url.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Category Selection -->
+                        <div class="mb-4">
+                            <label for="category" class="form-label fw-bold">Category</label>
+                            {{ form.category(class="form-select" + (' is-invalid' if form.category.errors else ''), 
+                               required="required") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.category.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Tech Stack Tags -->
+                        <div class="mb-4">
+                            <label for="tech_stack" class="form-label fw-bold">Technologies Used</label>
+                            {{ form.tech_stack(class="form-control", 
+                               placeholder="Python, Flask, TensorFlow (comma separated)") }}
+                            <div class="form-text">Separate technologies with commas</div>
+                        </div>
+                        
+                        <!-- Form Submission -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg hover-scale">
+                                <i class="fas fa-save me-2"></i>
+                                {{ 'Update Project' if project else 'Save Project' }}
+                            </button>
+                            <a href="{{ url_for('projects') }}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .file-upload-wrapper {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+    
+    .file-upload-wrapper input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .file-upload-wrapper::before {
+        content: 'Choose file';
+        display: inline-block;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        padding: 6px 12px;
+        outline: none;
+        white-space: nowrap;
+        cursor: pointer;
+        font-weight: 400;
+        font-size: 0.875rem;
+        color: #495057;
+    }
+    
+    .file-upload-wrapper:hover::before {
+        background: #e9ecef;
+    }
+    
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+        transform: scale(1.02);
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-radius: 0.5rem 0.5rem 0 0 !important;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    .btn-lg {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image preview functionality
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const removeImageBtn = document.getElementById('removeImage');
+        
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('File size exceeds 5MB limit');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Only JPG, PNG, and WEBP files are allowed');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        if (removeImageBtn) {
+            removeImageBtn.addEventListener('click', function() {
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
+                document.querySelector('input[name="existing_image"]').value = '';
+                this.style.display = 'none';
+            });
+        }
+        
+        // Form validation
+        const form = document.getElementById('projectForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate required fields
+                const requiredFields = form.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    }
+                });
+                
+                // Validate image (either existing or new)
+                if (!form.querySelector('input[name="existing_image"]') && !imageInput.files[0]) {
+                    imageInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first invalid field
+                    const firstInvalid = form.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+        
+        // Initialize animations
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.animate__animated').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+    });
+</script>
+{% endblock %}

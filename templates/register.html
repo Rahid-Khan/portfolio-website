@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Rahid Khan{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center animate__animated animate__fadeIn">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <!-- Animated Gradient Header -->
+                <div class="card-header bg-gradient-primary py-4">
+                    <h2 class="text-white text-center mb-0 animate__animated animate__fadeInDown">
+                        <i class="fas fa-user-plus me-2"></i>Create Your Account
+                    </h2>
+                </div>
+                
+                <div class="card-body p-4 p-lg-5">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__shakeX">
+                                    {{ message }}
+                                    {% if category == 'danger' and 'already' in message %}
+                                        <a href="{{ url_for('login') }}" class="alert-link">Login instead?</a>
+                                    {% endif %}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Registration Form -->
+                    <form method="POST" action="{{ url_for('register') }}" id="registerForm" class="needs-validation animate__animated animate__fadeInUp" novalidate>
+                        {{ form.hidden_tag() }}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <div class="row">
+                            <!-- Username Field -->
+                            <div class="col-md-6 mb-4 form-floating">
+                                {{ form.username(class="form-control" + (' is-invalid' if form.username.errors else ''), 
+                                   id="floatingUsername", 
+                                   placeholder="Username",
+                                   autocomplete="username",
+                                   required="required") }}
+                                <label for="floatingUsername">Username</label>
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <!-- Email Field -->
+                            <div class="col-md-6 mb-4 form-floating">
+                                {{ form.email(class="form-control" + (' is-invalid' if form.email.errors else ''), 
+                                   id="floatingEmail", 
+                                   placeholder="name@example.com",
+                                   autocomplete="email",
+                                   required="required",
+                                   type="email") }}
+                                <label for="floatingEmail">Email address</label>
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Password Field -->
+                            <div class="col-md-6 mb-4 form-floating">
+                                {{ form.password(class="form-control" + (' is-invalid' if form.password.errors else ''), 
+                                   id="floatingPassword", 
+                                   placeholder="Password",
+                                   autocomplete="new-password",
+                                   required="required",
+                                   minlength="8") }}
+                                <label for="floatingPassword">Password</label>
+                                <div class="invalid-feedback">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                                <div class="password-strength mt-2">
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar" id="passwordStrength" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                    <small class="text-muted" id="passwordStrengthText">Password strength</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Confirm Password Field -->
+                            <div class="col-md-6 mb-4 form-floating">
+                                {{ form.confirm_password(class="form-control" + (' is-invalid' if form.confirm_password.errors else ''), 
+                                   id="floatingConfirmPassword", 
+                                   placeholder="Confirm Password",
+                                   autocomplete="new-password",
+                                   required="required") }}
+                                <label for="floatingConfirmPassword">Confirm Password</label>
+                                <div class="invalid-feedback">
+                                    {% for error in form.confirm_password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                                <div class="password-match mt-2">
+                                    <small class="text-muted" id="passwordMatchText"></small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms Checkbox -->
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and 
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree to the terms and conditions
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg hover-scale">
+                                <i class="fas fa-user-plus me-2"></i> Create Account
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Login Link -->
+                    <div class="text-center mt-4 animate__animated animate__fadeIn">
+                        <p class="text-muted">Already have an account? 
+                            <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms of Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your terms of service content here -->
+                <h6>1. Acceptance of Terms</h6>
+                <p>By accessing or using our services, you agree to be bound by these Terms...</p>
+                
+                <h6>2. User Responsibilities</h6>
+                <p>You are responsible for maintaining the confidentiality of your account...</p>
+                
+                <h6>3. Content Ownership</h6>
+                <p>You retain ownership of any content you submit, post or display...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Privacy Policy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your privacy policy content here -->
+                <h6>1. Information We Collect</h6>
+                <p>We collect information you provide directly to us, such as when you create an account...</p>
+                
+                <h6>2. How We Use Information</h6>
+                <p>We use the information we collect to provide, maintain, and improve our services...</p>
+                
+                <h6>3. Information Sharing</h6>
+                <p>We do not share your personal information with third parties except as described in this policy...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    
+    /* Custom Styles */
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #4361ee, #3a0ca3) !important;
+    }
+    
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-login-btn {
+        transition: all 0.3s ease;
+        border-width: 2px;
+        min-width: 110px;
+    }
+    
+    .social-login-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .divider {
+        position: relative;
+        text-align: center;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .divider span {
+        position: relative;
+        top: 10px;
+        padding: 0 10px;
+    }
+    
+    .form-floating > .form-control {
+        height: calc(3rem + 2px);
+        padding: 1rem 0.75rem;
+    }
+    
+    .form-floating > label {
+        padding: 1rem 0.75rem;
+    }
+    
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-radius: 1rem 1rem 0 0 !important;
+    }
+    
+    .password-strength .progress {
+        border-radius: 3px;
+    }
+    
+    .password-strength .progress-bar {
+        transition: width 0.5s ease;
+    }
+</style>
+
+<script>
+    // Client-side form validation
+    (function() {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+    
+    // Rest of your existing scripts...
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize animations on scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate__animated').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+
+        // Password strength indicator
+        const passwordInput = document.getElementById('floatingPassword');
+        const confirmPasswordInput = document.getElementById('floatingConfirmPassword');
+        const passwordStrengthBar = document.getElementById('passwordStrength');
+        const passwordStrengthText = document.getElementById('passwordStrengthText');
+        const passwordMatchText = document.getElementById('passwordMatchText');
+
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 8) strength += 1;
+                if (password.length >= 12) strength += 1;
+                
+                // Character type checks
+                if (/[A-Z]/.test(password)) strength += 1;
+                if (/[0-9]/.test(password)) strength += 1;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+                
+                // Update strength bar
+                const width = strength * 20;
+                let color = 'bg-danger';
+                let text = 'Weak';
+                
+                if (strength >= 3) {
+                    color = 'bg-warning';
+                    text = 'Medium';
+                }
+                if (strength >= 5) {
+                    color = 'bg-success';
+                    text = 'Strong';
+                }
+                
+                passwordStrengthBar.style.width = width + '%';
+                passwordStrengthBar.className = 'progress-bar ' + color;
+                passwordStrengthText.textContent = text + ' password';
+                passwordStrengthText.className = 'text-muted ' + color.replace('bg-', 'text-');
+            });
+        }
+
+        // Password match checker
+        if (passwordInput && confirmPasswordInput) {
+            confirmPasswordInput.addEventListener('input', function() {
+                if (passwordInput.value !== this.value) {
+                    passwordMatchText.textContent = 'Passwords do not match';
+                    passwordMatchText.className = 'text-danger';
+                } else {
+                    passwordMatchText.textContent = 'Passwords match';
+                    passwordMatchText.className = 'text-success';
+                }
+            });
+        }
+
+        // Form validation
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate required fields
+                const requiredFields = ['floatingUsername', 'floatingEmail', 'floatingPassword', 'floatingConfirmPassword'];
+                requiredFields.forEach(id => {
+                    const field = document.getElementById(id);
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                // Validate password match
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    confirmPasswordInput.classList.remove('is-invalid');
+                }
+                
+                // Validate terms checkbox
+                if (!document.getElementById('termsCheck').checked) {
+                    document.getElementById('termsCheck').classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('termsCheck').classList.remove('is-invalid');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first invalid field
+                    const firstInvalid = registerForm.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

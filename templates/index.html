@@ -1,0 +1,403 @@
+{% extends "base.html" %}
+
+{% block title %}Rahid Khan - AI Engineer{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section with Animation -->
+    <div class="row align-items-center animate__animated animate__fadeIn">
+        <div class="col-md-6 order-md-1 order-2">
+            <h1 class="display-4 fw-bold text-gradient">Rahid Khan</h1>
+            <p class="lead text-muted">AI Engineer & Machine Learning Enthusiast</p>
+            <p class="mb-4">Creating reliable ML models to solve real-world problems</p>
+            
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <a href="#about" class="btn btn-primary btn-lg px-4 animate__animated animate__pulse animate__infinite">
+                    <i class="fas fa-user me-2"></i>About Me
+                </a>
+                <div class="btn-group" role="group">
+                    <form method="POST" class="d-inline me-2">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="download_cv" value="true">
+                        <input type="hidden" name="view" value="true">
+                        <button type="submit" class="btn btn-primary btn-lg px-4 hover-scale">
+                            <i class="fas fa-eye me-2"></i>View CV
+                        </button>
+                    </form>
+                    <form method="POST" class="d-inline">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="download_cv" value="true">
+                        <button type="submit" class="btn btn-outline-primary btn-lg px-4 hover-scale">
+                            <i class="fas fa-download me-2"></i>Download CV
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://github.com/Rahid-Khan" target="_blank" class="text-decoration-none me-3 hover-grow">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/rahid-khan-64ab2b292" target="_blank" class="text-decoration-none me-3 hover-grow">
+                    <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+                <a href="mailto:rahidka524@gmail.com" class="text-decoration-none hover-grow">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 order-md-2 order-1 mb-4 mb-md-0">
+            <img src="{{ url_for('static', filename='images/profile.jpg') }}" 
+                 class="img-fluid rounded-circle shadow-lg border border-4 border-primary animate__animated animate__zoomIn"
+                 alt="Professional Headshot"
+                 style="max-height: 400px;">
+        </div>
+    </div>
+
+    <!-- CV Sections with Animations -->
+    <div class="row mt-5">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <!-- About Section -->
+            <section id="about" class="mb-5 animate__animated animate__fadeInUp">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-user me-2"></i>Personal Statement</h2>
+                        <p class="lead">Enthusiastic AI student currently pursuing Bachelor's in Artificial Intelligence with foundational knowledge in Python programming, Flask web development, and machine learning concepts.</p>
+                        <p>Fluent in Pashto, Urdu, and English with strong communication skills and passion for technology solutions.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section class="mb-5 animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-graduation-cap me-2"></i>Education</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <h4>Bachelor of Science in Artificial Intelligence</h4>
+                                <h5>City University of Science and Information Technology, Peshawar</h5>
+                                <div class="text-muted mb-2">Expected Graduation: May 2027 | Current Semester: 5th | GPA: 3.59/4.0</div>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Python Programming</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Data Structures</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Introduction to Machine Learning</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Generative AI</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="mb-5 animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-code me-2"></i>Projects</h2>
+                        <div class="project-item mb-4">
+                            <h4> Flask Based Web Application </h4>
+                            <ul>
+                                <li>Developed web app with Python/Flask</li>
+                                <li>Integrated machine learning model</li>
+                                <li>Developed small models of natural language processing (NLP)</li>
+                            </ul>
+                        </div>
+                        <div class="project-item">
+                            <h4>Data Analysis Project</h4>
+                            <ul>
+                                <li>Cleaned and analyzed dataset using Pandas</li>
+                                <li>Created visualizations with Matplotlib</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <!-- Skills Section -->
+            <section class="mb-5 animate__animated animate__fadeInRight">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-cogs me-2"></i>Technical Skills</h2>
+                        
+                        <h5 class="mt-4">Programming Languages</h5>
+                        <div class="skill-bar mb-3">
+                            <div class="skill-label">Python (Intermediate)</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar mb-3">
+                            <div class="skill-label">HTML/CSS (Basic)</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-4">Frameworks & Tools</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-primary p-2">Flask</span>
+                            <span class="badge bg-primary p-2">NumPy</span>
+                            <span class="badge bg-primary p-2">Pandas</span>
+                            <span class="badge bg-primary p-2">Scikit-learn</span>
+                        </div>
+                        
+                        <h5 class="mt-4">Machine Learning</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-circle-notch text-primary me-2"></i>Supervised/Unsupervised Learning</li>
+                            <li><i class="fas fa-circle-notch text-primary me-2"></i>Regression & Classification</li>
+                            <li><i class="fas fa-circle-notch text-primary me-2"></i>Model Evaluation</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Languages Section -->
+            <section class="mb-5 animate__animated animate__fadeInRight animate__delay-1s">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-language me-2"></i>Languages</h2>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <span class="fw-bold">Pashto:</span> Native
+                                <div class="progress mt-1">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                                </div>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-bold">Urdu:</span> Fluent
+                                <div class="progress mt-1">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="fw-bold">English:</span> Intermediate
+                                <div class="progress mt-1">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 70%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certifications Section -->
+            <section class="animate__animated animate__fadeInRight animate__delay-2s">
+                <div class="card shadow-sm border-0 hover-scale">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-gradient mb-4"><i class="fas fa-certificate me-2"></i>Certifications</h2>
+                        <div class="certification-item">
+                            <h5>Programming for AI</h5>
+                            <p class="text-muted">National Vocational and Technical Training Commission</p>
+                        </div>
+                        <div class="certification-item mt-3">
+                            <h5>Self-Taught Skills</h5>
+                            <p class="text-muted">Various AI/ML concepts through online resources</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Animations and Download -->
+<script>
+// Initialize animations when elements come into view
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate elements when they scroll into view
+    const animateOnScroll = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                animateOnScroll.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.animate__animated').forEach(el => {
+        animateOnScroll.observe(el);
+    });
+
+    // Handle CV forms (both view and download)
+    document.querySelectorAll('form[action="{{ url_for('index') }}"]').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const isView = this.querySelector('input[name="view"]') !== null;
+            
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(new FormData(this))
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                if (isView) {
+                    // Open in new tab for viewing
+                    window.open(url, '_blank');
+                } else {
+                    // Download directly
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Rahid_Khan_CV.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error processing CV:', error));
+        });
+    });
+});
+
+// Hover effects
+document.querySelectorAll('.hover-scale').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'scale(1.02)';
+        card.style.transition = 'transform 0.3s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'scale(1)';
+    });
+});
+
+document.querySelectorAll('.hover-grow').forEach(icon => {
+    icon.addEventListener('mouseenter', () => {
+        icon.style.transform = 'scale(1.2)';
+        icon.style.transition = 'transform 0.3s ease';
+    });
+    icon.addEventListener('mouseleave', () => {
+        icon.style.transform = 'scale(1)';
+    });
+});
+</script>
+
+<style>
+/* Custom Styles */
+.text-gradient {
+    background: linear-gradient(45deg, #4361ee, #3a0ca3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.skill-bar {
+    margin-bottom: 1rem;
+}
+
+.skill-label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #4361ee;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4361ee;
+    border: 2px solid white;
+}
+
+.animate__delay-1s {
+    animation-delay: 0.5s !important;
+}
+
+.animate__delay-2s {
+    animation-delay: 1s !important;
+}
+
+/* Button Group Styles */
+.btn-group {
+    display: inline-flex;
+    border-radius: 0.375rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.btn-group .btn {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    margin-left: 0;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+/* Social Links */
+.social-links a {
+    transition: all 0.3s ease;
+    color: #4a5568;
+}
+
+.social-links a:hover {
+    color: #3a0ca3;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .btn-group {
+        width: 100%;
+    }
+    
+    .btn-group .btn {
+        flex: 1;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    .d-flex.flex-wrap {
+        gap: 0.75rem;
+    }
+}
+</style>
+{% endblock %}

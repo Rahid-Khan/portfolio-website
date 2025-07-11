@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Me - Rahid Khan{% endblock %}
+
+{% block content %}
+<div class="container my-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Contact Header with Animated Gradient -->
+            <div class="text-center mb-5 animate__animated animate__fadeInDown">
+                <h1 class="display-4 fw-bold gradient-text">Get In Touch</h1>
+                <p class="lead text-muted">I'd love to hear from you! Reach out through any of these channels</p>
+            </div>
+
+            <!-- Contact Cards Grid -->
+            <div class="row g-4 mb-5 animate__animated animate__fadeInUp">
+                <!-- WhatsApp Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm hover-scale">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-3 mb-3 mx-auto">
+                                <i class="fab fa-whatsapp fa-3x text-success"></i>
+                            </div>
+                            <h3 class="h4">WhatsApp Chat</h3>
+                            <p class="text-muted mb-4">Instant messaging for quick questions</p>
+                            <a href="https://wa.me/+923070429192?text=Hello%20Rahid,%20I%20have%20a%20question%20about..." 
+                               class="btn btn-success hover-scale"
+                               target="_blank">
+                                <i class="fab fa-whatsapp me-2"></i> Chat Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm hover-scale">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-3 mb-3 mx-auto">
+                                <i class="fas fa-envelope fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="h4">Email Me</h3>
+                            <p class="text-muted mb-4">For detailed inquiries and collaborations</p>
+                            <a href="mailto:rahidka524@gmail.com" 
+                               class="btn btn-primary hover-scale">
+                                <i class="fas fa-paper-plane me-2"></i> Send Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm hover-scale">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper bg-info bg-opacity-10 rounded-circle p-3 mb-3 mx-auto">
+                                <i class="fas fa-phone fa-3x text-info"></i>
+                            </div>
+                            <h3 class="h4">Call Me</h3>
+                            <p class="text-muted mb-4">Available during business hours</p>
+                            <a href="tel:+923070429192" 
+                               class="btn btn-info text-white hover-scale">
+                                <i class="fas fa-phone me-2"></i> +92 307 042 9192
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form Section -->
+            <div class="row justify-content-center animate__animated animate__fadeIn">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-dark text-white">
+                            <h2 class="h4 mb-0 text-center">
+                                <i class="fas fa-paper-plane me-2"></i>Send a Message
+                            </h2>
+                        </div>
+                        
+                        <div class="card-body p-4 p-lg-5">
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                            
+                            <form method="POST" action="{{ url_for('contact') }}" id="contactForm" novalidate>
+                                {{ form.hidden_tag() }}
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                
+                                <!-- Name Field -->
+                                <div class="mb-4">
+                                    <label for="name" class="form-label fw-bold">Your Name</label>
+                                    {{ form.name(class="form-control form-control-lg" + (' is-invalid' if form.name.errors else ''), 
+                                       placeholder="Enter your name", 
+                                       required="required") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Email Field -->
+                                <div class="mb-4">
+                                    <label for="email" class="form-label fw-bold">Email Address</label>
+                                    {{ form.email(class="form-control form-control-lg" + (' is-invalid' if form.email.errors else ''), 
+                                       placeholder="your@email.com", 
+                                       required="required",
+                                       type="email") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Subject Field -->
+                                <div class="mb-4">
+                                    <label for="subject" class="form-label fw-bold">Subject</label>
+                                    {{ form.subject(class="form-control form-control-lg" + (' is-invalid' if form.subject.errors else ''), 
+                                       placeholder="What's this about?", 
+                                       required="required") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.subject.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Message Field -->
+                                <div class="mb-4">
+                                    <label for="message" class="form-label fw-bold">Your Message</label>
+                                    {{ form.message(class="form-control" + (' is-invalid' if form.message.errors else ''), 
+                                       rows="5", 
+                                       placeholder="Type your message here...",
+                                       required="required") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.message.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Honeypot Field (Spam Protection) -->
+                                <div class="d-none">
+                                    <label for="website">Website</label>
+                                    <input type="text" name="website" id="website">
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-dark btn-lg hover-scale">
+                                        <i class="fas fa-paper-plane me-2"></i> Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Location Section -->
+            <div class="row mt-5 animate__animated animate__fadeIn">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-md-6 p-4">
+                                    <h2 class="h3 mb-4"><i class="fas fa-map-marker-alt text-danger me-2"></i>My Location</h2>
+                                    <address class="mb-4">
+                                        <strong>Peshawar, Pakistan</strong><br>
+                                        Peshawar Saddar Super Market<br>
+                                        <abbr title="Phone">Phone:</abbr> +92 307 042 9192
+                                    </address>
+                                    <div class="d-flex gap-3">
+                                        <a href="https://github.com/Rahid-Khan" target="_blank" class="text-decoration-none hover-grow">
+                                            <i class="fab fa-github fa-2x"></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/rahid-khan-64ab2b292" target="_blank" class="text-decoration-none hover-grow">
+                                            <i class="fab fa-linkedin fa-2x"></i>
+                                        </a>
+                                        <a href="https://twitter.com/" target="_blank" class="text-decoration-none hover-grow">
+                                            <i class="fab fa-twitter fa-2x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="map-container h-100">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.041634075841!2d71.4908153152226!3d34.00698098061368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38d9172b8a5b7b5d%3A0x2f1a5e5a5e5a5e5a!2sCity%20University%20of%20Science%20and%20Information%20Technology!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s" 
+                                                width="100%" 
+                                                height="100%" 
+                                                style="border:0;" 
+                                                allowfullscreen="" 
+                                                loading="lazy"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .gradient-text {
+        background: linear-gradient(45deg, #4361ee, #3f37c9, #3a0ca3);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-scale:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .hover-grow {
+        transition: transform 0.3s ease;
+    }
+
+    .hover-grow:hover {
+        transform: scale(1.2);
+    }
+
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .map-container {
+        min-height: 300px;
+    }
+
+    .card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .btn-lg {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .map-container {
+            height: 300px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form validation
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate required fields
+                const requiredFields = contactForm.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+
+                // Honeypot validation (spam prevention)
+                const honeypot = contactForm.querySelector('input[name="website"]');
+                if (honeypot && honeypot.value) {
+                    isValid = false; // Likely a bot
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first invalid field
+                    const firstInvalid = contactForm.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+
+        // Initialize animations on scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate__animated').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.hover-scale').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = '';
+            });
+        });
+
+        document.querySelectorAll('.hover-grow').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.transform = 'scale(1.2)';
+            });
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = '';
+            });
+        });
+    });
+</script>
+{% endblock %}

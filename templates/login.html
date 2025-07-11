@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Rahid Khan{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center animate__animated animate__fadeIn">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <!-- Animated Gradient Header -->
+                <div class="card-header bg-gradient-primary py-4">
+                    <h2 class="text-white text-center mb-0 animate__animated animate__fadeInDown">
+                        <i class="fas fa-sign-in-alt me-2"></i>Welcome Back
+                    </h2>
+                </div>
+                
+                <div class="card-body p-4 p-lg-5">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__shakeX">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Login Form -->
+                    <form method="POST" action="{{ url_for('login') }}" id="loginForm" class="animate__animated animate__fadeInUp">
+                        {{ form.hidden_tag() }}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        
+                        <!-- Email Field -->
+                        <div class="mb-4 form-floating">
+                            {{ form.email(class="form-control" + (' is-invalid' if form.email.errors else ''), 
+                               id="floatingEmail", 
+                               placeholder="name@example.com",
+                               autocomplete="email") }}
+                            <label for="floatingEmail">Email address</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="mb-4 form-floating">
+                            {{ form.password(class="form-control" + (' is-invalid' if form.password.errors else ''), 
+                               id="floatingPassword", 
+                               placeholder="Password",
+                               autocomplete="current-password") }}
+                            <label for="floatingPassword">Password</label>
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                {{ form.remember(class="form-check-input") }}
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <a href="{{ url_for('reset_password_request') }}" class="text-decoration-none">Forgot password?</a>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg hover-scale">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Registration Link -->
+                    <div class="text-center mt-4 animate__animated animate__fadeIn">
+                        <p class="text-muted">Don't have an account? 
+                            <a href="{{ url_for('register') }}" class="text-decoration-none fw-bold">Register here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #4361ee, #3a0ca3) !important;
+    }
+    
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-login-btn {
+        transition: all 0.3s ease;
+        border-width: 2px;
+        min-width: 110px;
+    }
+    
+    .social-login-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .divider {
+        position: relative;
+        text-align: center;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .divider span {
+        position: relative;
+        top: 10px;
+        padding: 0 10px;
+    }
+    
+    .form-floating > .form-control {
+        height: calc(3rem + 2px);
+        padding: 1rem 0.75rem;
+    }
+    
+    .form-floating > label {
+        padding: 1rem 0.75rem;
+    }
+    
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-radius: 1rem 1rem 0 0 !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize animations on scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate__animated').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+
+        // Form validation
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate required fields
+                const email = document.getElementById('floatingEmail');
+                const password = document.getElementById('floatingPassword');
+                
+                if (!email.value.trim()) {
+                    email.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    email.classList.remove('is-invalid');
+                }
+                
+                if (!password.value.trim()) {
+                    password.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    password.classList.remove('is-invalid');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first invalid field
+                    const firstInvalid = loginForm.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

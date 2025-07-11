@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Rahid Khan{% endblock %}
+
+{% block content %}
+<div class="container my-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="row g-0">
+                    <!-- Hero Image Column -->
+                    <div class="col-md-5 d-flex align-items-stretch">
+                        <img src="{{ url_for('static', filename='images/about.jpg') }}" 
+                             class="img-fluid h-100 object-fit-cover animate__animated animate__zoomIn" 
+                             alt="Our Team"
+                             style="min-height: 300px;">
+                    </div>
+                    
+                    <!-- Content Column -->
+                    <div class="col-md-7">
+                        <div class="card-body p-4 p-lg-5">
+                            <h1 class="display-4 text-gradient-primary mb-4 animate__animated animate__fadeInDown">
+                                About <span class="fw-bold">Rahid Khan</span>
+                            </h1>
+                            
+                            <div class="d-flex align-items-center mb-4 animate__animated animate__fadeIn animate__delay-1s">
+                                <div class="bg-primary rounded-pill p-2 me-3">
+                                    <i class="fas fa-lightbulb text-white fa-lg"></i>
+                                </div>
+                                <h2 class="mb-0">Our Vision</h2>
+                            </div>
+                            <p class="lead text-muted mb-4 animate__animated animate__fadeIn animate__delay-1s">
+                                To revolutionize problem-solving through artificial intelligence and machine learning, 
+                                making advanced technology accessible to everyone.
+                            </p>
+                            
+                            <hr class="my-4">
+                            
+                            <!-- Timeline Section -->
+                            <div class="animate__animated animate__fadeIn animate__delay-2s">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary rounded-pill p-2 me-3">
+                                        <i class="fas fa-history text-white fa-lg"></i>
+                                    </div>
+                                    <h2 class="mb-0">Our Journey</h2>
+                                </div>
+                                
+                                <div class="timeline ms-4">
+                                    <div class="timeline-item position-relative ps-4 pb-4">
+                                        <div class="timeline-badge bg-primary"></div>
+                                        <h5 class="text-primary">2023 - Foundation</h5>
+                                        <p>Started as an AI student with a passion for solving real-world problems through technology.</p>
+                                    </div>
+                                    <div class="timeline-item position-relative ps-4 pb-4">
+                                        <div class="timeline-badge bg-success"></div>
+                                        <h5 class="text-success">2024 - First Breakthrough</h5>
+                                        <p>Developed initial machine learning models and Flask web applications for practical implementations.</p>
+                                    </div>
+                                    <div class="timeline-item position-relative ps-4">
+                                        <div class="timeline-badge bg-info"></div>
+                                        <h5 class="text-info">2025 - Current Focus</h5>
+                                        <p>Specializing in generative AI and advanced ML techniques while pursuing BS in Artificial Intelligence.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <!-- Skills Section -->
+                            <div class="animate__animated animate__fadeIn animate__delay-3s">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary rounded-pill p-2 me-3">
+                                        <i class="fas fa-cogs text-white fa-lg"></i>
+                                    </div>
+                                    <h2 class="mb-0">Technical Expertise</h2>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 shadow-sm hover-scale">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <i class="fab fa-python text-primary me-2 fa-lg"></i>
+                                                    <h5 class="mb-0">Python Development</h5>
+                                                </div>
+                                                <p class="text-muted small">
+                                                    Building robust applications with Flask, Django, and FastAPI frameworks.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 shadow-sm hover-scale">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <i class="fas fa-brain text-primary me-2 fa-lg"></i>
+                                                    <h5 class="mb-0">Machine Learning</h5>
+                                                </div>
+                                                <p class="text-muted small">
+                                                    Implementing supervised/unsupervised learning models with Scikit-learn and TensorFlow.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 shadow-sm hover-scale">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <i class="fas fa-robot text-primary me-2 fa-lg"></i>
+                                                    <h5 class="mb-0">Generative AI</h5>
+                                                </div>
+                                                <p class="text-muted small">
+                                                    Exploring cutting-edge applications of LLMs and diffusion models.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 shadow-sm hover-scale">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <i class="fas fa-globe text-primary me-2 fa-lg"></i>
+                                                    <h5 class="mb-0">Web Development</h5>
+                                                </div>
+                                                <p class="text-muted small">
+                                                    Creating responsive, user-friendly interfaces with modern frameworks.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mission Section -->
+                            <div class="mt-5 animate__animated animate__fadeIn animate__delay-4s">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary rounded-pill p-2 me-3">
+                                        <i class="fas fa-bullseye text-white fa-lg"></i>
+                                    </div>
+                                    <h2 class="mb-0">Our Mission</h2>
+                                </div>
+                                <div class="card bg-light border-0">
+                                    <div class="card-body">
+                                        <p class="lead mb-0">
+                                            "To democratize AI technology by developing accessible solutions that solve real problems, 
+                                            while continuously advancing my skills through education and practical implementation."
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .text-gradient-primary {
+        background: linear-gradient(45deg, #4361ee, #3a0ca3);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .timeline {
+        position: relative;
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .timeline-badge {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 3px solid white;
+    }
+    
+    .timeline-item {
+        border-left: 2px solid #dee2e6;
+    }
+    
+    .timeline-item:last-child {
+        border-left-color: transparent;
+    }
+    
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+        transform: translateY(-5px);
+    }
+    
+    .object-fit-cover {
+        object-fit: cover;
+    }
+</style>
+
+<script>
+    // Initialize animations when elements come into view
+    document.addEventListener('DOMContentLoaded', function() {
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    animateOnScroll.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.animate__animated').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+    });
+</script>
+{% endblock %}
