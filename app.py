@@ -15,7 +15,6 @@ def create_app():
 
     Bootstrap(app)
     app.config['SECRET_KEY'] = "secret key"
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:asdf1234@localhost:5432/result_db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = 'static/project_images'  
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'fallback-secret-key')
@@ -27,6 +26,16 @@ def create_app():
     app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # Remove the actual password
     
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+    # Railway provides DATABASE_URL
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    else:
+            app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:asdf1234@localhost:5432/result_db')
+
+        
+
     
     db.init_app(app)
     bcrypt.init_app(app)
