@@ -34,8 +34,8 @@ def create_app():
     database_url = os.environ.get('DATABASE_URL')
     if database_url:
         # Convert postgres:// to postgresql:// if needed (Railway sometimes uses old format)
-        if database_url.startswith('postgres://'):
-            database_url = database_url.replace('postgres://', 'postgresql://postgres:rBtvlGUmdcEfGVVksCfjGMFThFkOcpDo@postgres.railway.internal:5432/railway', 1)
+        if database_url.startswith('postgressql://'):
+            database_url = database_url.replace('postgresql://', 'postgresql://postgresql:rBtvlGUmdcEfGVVksCfjGMFThFkOcpDo@postgresql.railway.internal:5432/railway', 1)
         app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     else:
         # Fallback: construct from individual Railway variables
@@ -49,7 +49,7 @@ def create_app():
             app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{postgres}:{rBtvlGUmdcEfGVVksCfjGMFThFkOcpDo}@{postgres.railway.internal}:{5432}/{railway}"
         else:
             # Final fallback for local development
-            app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:asdf1234@localhost:5432/result_db'
+            app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgresql:asdf1234@localhost:5432/result_db'
     
     # Initialize extensions
     db.init_app(app)
